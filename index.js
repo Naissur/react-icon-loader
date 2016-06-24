@@ -233,28 +233,38 @@ function componentExport(source, filename) {
         }
       },
 
+      //  recompose removed auto-currying -
+      //  setDisplayName('react-icon(...)')(pure(...))
       right: {
-        type: 'CallExpression',
-        callee: {
-          type: 'Identifier',
-          name: 'setDisplayName'
-        },
-        arguments: [
-          {
-            type: 'Literal',
-            value: 'react-icon(' + filename + ')'
-          },
-          {
-            type: 'CallExpression',
-            callee: {
-              type: 'Identifier',
-              name: 'pure'
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "CallExpression",
+            "callee": {
+              "type": "Identifier",
+              "name": "setDisplayName"
             },
-            arguments: [
-              component(root)
+            "arguments": [
+              {
+                type: 'Literal',
+                value: 'react-icon(' + filename + ')'
+              }
             ]
-          }
-        ]
+          },
+          "arguments": [
+            {
+              type: 'CallExpression',
+              callee: {
+                type: 'Identifier',
+                name: 'pure'
+              },
+              arguments: [
+                component(root)
+              ]
+            }
+          ]
+        }
       }
     }
   };
